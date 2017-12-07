@@ -3,6 +3,9 @@ package com.github.chrishantha.lambda.ballerina;
 import java.io.Serializable;
 import java.util.Map;
 
+/**
+ * Response POJO class
+ */
 public class Response implements Serializable {
 
     /**

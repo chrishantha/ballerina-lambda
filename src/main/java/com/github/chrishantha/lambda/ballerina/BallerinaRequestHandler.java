@@ -23,10 +23,9 @@ public class BallerinaRequestHandler implements RequestHandler<Request, Response
     private static final String BAL_PACKAGE_ENV_VAR = "BAL_PACKAGE";
     private static final String BAL_SERVICE_PATH_ENV_VAR = "BAL_SERVICE_PATH";
     private static final String BAL_SERVICE_METHOD_ENV_VAR = "BAL_SERVICE_METHOD";
-    private static final String HEADER_AWS_REQUEST_ID = "aws-request-id";
-    private static final String HEADER_FUNCTION_NAME = "function-name";
-    private static final String HEADER_FUNCTION_VERSION = "function-version";
-    private static final String HEADER_REMAINING_TIME_IN_MILLIS = "remaining-time-in-millis";
+    private static final String HEADER_FUNCTION_NAME = "x-bal-lambda-function-name";
+    private static final String HEADER_FUNCTION_VERSION = "x-bal-lambda-function-version";
+    private static final String HEADER_REMAINING_TIME_IN_MILLIS = "x-bal-lambda-remaining-time-in-millis";
 
     private final CompileResult compileResult;
     private final String BAL_PACKAGE;
@@ -44,6 +43,7 @@ public class BallerinaRequestHandler implements RequestHandler<Request, Response
             throw new RuntimeException("There are errors in the Ballerina Service");
         }
         BServiceUtil.runService(compileResult);
+        System.out.println("Request Handler Initialized.");
     }
 
     private String getEnvVar(String name, String def) {
@@ -56,7 +56,7 @@ public class BallerinaRequestHandler implements RequestHandler<Request, Response
         logger.log(String.format("Received : %s", request.getBody()));
         String responseBody = invokeBallerinaService(request.getBody());
         Map<String, String> headers = new HashMap<>();
-        headers.put(HEADER_AWS_REQUEST_ID, context.getAwsRequestId());
+        // AWS Request ID is already available as a header. See: x-amzn-RequestId
         headers.put(HEADER_FUNCTION_NAME, context.getFunctionName());
         headers.put(HEADER_FUNCTION_VERSION, context.getFunctionVersion());
         headers.put(HEADER_REMAINING_TIME_IN_MILLIS, String.valueOf(context.getRemainingTimeInMillis()));
