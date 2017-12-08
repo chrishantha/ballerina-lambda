@@ -145,6 +145,7 @@
                         <configuration>
                             <outputDirectory>${project.build.directory}/lib</outputDirectory>
                             <useRepositoryLayout>false</useRepositoryLayout>
+                            <includeScope>runtime</includeScope>
                         </configuration>
                     </execution>
                 </executions>
