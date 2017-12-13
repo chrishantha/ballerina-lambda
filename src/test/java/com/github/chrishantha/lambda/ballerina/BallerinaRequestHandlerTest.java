@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 
 import static org.mockito.Mockito.when;
 
-public class BallerinaHandlerTest {
+public class BallerinaRequestHandlerTest {
 
     private BallerinaRequestHandler ballerinaRequestHandler;
 
