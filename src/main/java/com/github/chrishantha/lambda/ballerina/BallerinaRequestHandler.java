@@ -4,15 +4,19 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import org.ballerinalang.connector.api.ConnectorFuture;
+import org.ballerinalang.connector.api.ConnectorUtils;
 import org.ballerinalang.connector.api.Executor;
 import org.ballerinalang.launcher.util.BCompileUtil;
 import org.ballerinalang.launcher.util.BServiceUtil;
 import org.ballerinalang.launcher.util.CompileResult;
+import org.ballerinalang.model.util.StringUtils;
 import org.ballerinalang.model.values.BValue;
+import org.ballerinalang.net.http.BallerinaHttpServerConnector;
 import org.ballerinalang.net.http.Constants;
 import org.ballerinalang.net.http.HttpDispatcher;
 import org.ballerinalang.net.http.HttpResource;
 import org.wso2.transport.http.netty.message.HTTPCarbonMessage;
+import org.wso2.transport.http.netty.message.HttpMessageDataStreamer;
 
 import java.lang.management.ManagementFactory;
 import java.util.Collections;
@@ -105,9 +109,11 @@ public class BallerinaRequestHandler implements RequestHandler<Request, Response
     public String invokeBallerinaService(String payload) {
         HTTPTestRequest request = MessageUtils.generateHTTPMessage(BAL_SERVICE_PATH, BAL_SERVICE_METHOD,
                 payload);
+        BallerinaHttpServerConnector httpServerConnector = (BallerinaHttpServerConnector) ConnectorUtils.
+                getBallerinaServerConnector(compileResult.getProgFile(), Constants.HTTP_PACKAGE_PATH);
         TestHttpFutureListener futureListener = new TestHttpFutureListener(request);
         request.setFutureListener(futureListener);
-        HttpResource resource = HttpDispatcher.findResource(request);
+        HttpResource resource = HttpDispatcher.findResource(httpServerConnector.getHttpServicesRegistry(), request);
         if (resource == null) {
             return null;
         }
@@ -124,6 +130,7 @@ public class BallerinaRequestHandler implements RequestHandler<Request, Response
         future.setConnectorFutureListener(futureListener);
         futureListener.sync();
         HTTPCarbonMessage responseMsg = futureListener.getResponseMsg();
-        return responseMsg.getMessageDataSource().getMessageAsString();
+        return StringUtils.getStringFromInputStream(new HttpMessageDataStreamer(responseMsg)
+                .getInputStream());
     }
 }

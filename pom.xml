@@ -182,8 +182,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <javac.target>1.8</javac.target>
         <aws.lambda.version>1.2.0</aws.lambda.version>
-        <transport.http.version>6.0.54</transport.http.version>
-        <ballerina.version>0.95.4</ballerina.version>
+        <transport.http.version>6.0.67</transport.http.version>
+        <ballerina.version>0.95.6</ballerina.version>
         <testng.version>6.13.1</testng.version>
         <mockito.version>2.13.0</mockito.version>
         <slf4j.version>1.7.25</slf4j.version>
