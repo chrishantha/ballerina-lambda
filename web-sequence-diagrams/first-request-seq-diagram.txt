@@ -1,0 +1,17 @@
+title AWS Lambda First Request
+
+Client->AWS-Gateway: First HTTP request
+
+AWS-Gateway->*Lambda-Function-Instance: Create the AWS Lambda Function instance
+
+Lambda-Function-Instance->*AWS-Request-Handler: Start JVM and Create Java Handler Object
+
+AWS-Request-Handler->AWS-Request-Handler: Initialize (Object Constructor)
+
+AWS-Request-Handler->AWS-Request-Handler: Handle Request
+
+AWS-Request-Handler-->Lambda-Function-Instance:
+
+Lambda-Function-Instance-->AWS-Gateway:
+
+AWS-Gateway-->Client: Return Response

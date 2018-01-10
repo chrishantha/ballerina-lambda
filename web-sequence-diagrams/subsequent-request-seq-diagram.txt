@@ -1,0 +1,13 @@
+title AWS Lambda Subsequent Requests
+
+Client->AWS-Gateway: HTTP request
+
+AWS-Gateway->Lambda-Function-Instance: Locate the AWS Lambda Function instance
+
+Lambda-Function-Instance->AWS-Request-Handler: Handle Request
+
+AWS-Request-Handler-->Lambda-Function-Instance:
+
+Lambda-Function-Instance-->AWS-Gateway:
+
+AWS-Gateway-->Client: Return Response
