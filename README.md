@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/chrishantha/ballerina-lambda.svg?branch=master)](https://travis-ci.org/chrishantha/ballerina-lambda)
+
 # Running a Ballerina Service as a Serverless function in AWS Lambda
 
 This project implements an AWS Request Handler, which is triggered by AWS Lambda when there is an event.
